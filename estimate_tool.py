@@ -33,7 +33,6 @@ def estimate_project(project_type, length, width=None, height=None, material="Pr
     }
 
 # ----- Generate PDF in Memory -----
-
 def generate_pdf(data, project_type, material, client_name, client_email, client_phone, client_address):
     pdf = FPDF()
     pdf.add_page()
@@ -80,8 +79,8 @@ def generate_pdf(data, project_type, material, client_name, client_email, client
     for key, value in data.items():
         pdf.cell(200, 10, f"{key.replace('_', ' ').title()}: {value}", ln=True)
 
-    # Move Mike's contact info up (set y to -25 so it's closer to the bottom)
-    pdf.set_y(-25)  # Contact info positioned closer to the bottom
+    # Move contact info closer to the bottom but on page 1
+    pdf.set_y(-35)  # Position contact info just above the bottom of page 1
     pdf.set_font("Arial", size=10)
     pdf.cell(0, 10, "Mike", ln=True, align="C")
     pdf.cell(0, 10, "443-467-0899", ln=True, align="C")
@@ -101,7 +100,7 @@ def generate_pdf(data, project_type, material, client_name, client_email, client
         pass
 
     return buffer
-
+    
 # ----- ZIP Code Check -----
 def zip_requires_permit(address):
     match = re.search(r"\b(21\d{3})\b", address)
