@@ -53,13 +53,13 @@ def generate_pdf(data, project_type, material, client_name, client_email, client
     except Exception as e:
         print("Logo load failed:", e)
 
-    # Header
+    # Header - Increase the size of Mike's Contracting
     pdf.set_xy(50, 10)
-    pdf.set_font("Arial", "B", 16)
+    pdf.set_font("Arial", "B", 22)  # Increased font size
     pdf.cell(0, 10, "Mike's Contracting", ln=True, align="C")
 
     # Move cursor below header title to add project type (e.g., Deck Estimate)
-    pdf.set_y(25)
+    pdf.set_y(30)
     pdf.set_font("Arial", size=12)
     pdf.cell(200, 10, f"{project_type} Estimate", ln=True, align="C")
 
@@ -85,9 +85,11 @@ def generate_pdf(data, project_type, material, client_name, client_email, client
 
     # Set font and position for phone and website on the top-right
     pdf.set_font("Arial", size=10)
-    pdf.set_xy(170, 8)  # Positioning on the top-right
+    pdf.set_xy(170, 10)  # Position phone number at the top-right
     pdf.cell(0, 10, "(443) 467 - 0899", ln=True, align="R")
-    pdf.set_xy(170, 18)  # Move it a little down for the website
+    
+    # Move website a bit lower
+    pdf.set_xy(170, 18)  # Move it further down (below phone number)
     pdf.cell(0, 10, "www.Attractiveremodels.com", ln=True, align="R")
 
     # Output as bytes for Streamlit
