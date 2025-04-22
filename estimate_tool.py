@@ -47,10 +47,10 @@ def generate_pdf(data, project_type, material, client_name, client_email, client
     for key, value in data.items():
         pdf.cell(200, 10, f"{key.replace('_', ' ').title()}: {value}", ln=True)
 
-    pdf_buffer = io.BytesIO()
-    pdf.output(pdf_buffer)
-    pdf_buffer.seek(0)
-    return pdf_buffer
+    # Return PDF content as bytes
+    pdf_string = pdf.output(dest='S').encode('latin1')
+    return pdf_string
+
 
 # ----- ZIP Code Check -----
 def zip_requires_permit(address):
