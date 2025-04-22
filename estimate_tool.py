@@ -64,8 +64,10 @@ def generate_pdf(data, project_type, material, client_name, client_email, client
     pdf.set_font("Arial", size=12)
     pdf.cell(200, 10, f"{project_type} Estimate", ln=True, align="C")
 
+    # Space between logo and client information
+    pdf.set_y(45)
+
     # Body (Client and project info)
-    pdf.set_y(35)
     pdf.set_font("Arial", size=12)
     pdf.cell(200, 10, f"Client: {client_name}", ln=True)
     pdf.cell(200, 10, f"Email: {client_email}", ln=True)
@@ -78,8 +80,8 @@ def generate_pdf(data, project_type, material, client_name, client_email, client
     for key, value in data.items():
         pdf.cell(200, 10, f"{key.replace('_', ' ').title()}: {value}", ln=True)
 
-    # Footer - Mike's contact details
-    pdf.set_y(-40)  # Position the footer 40 units from the bottom of the page
+    # Move Mike's contact info up (set y to -25 so it's closer to the bottom)
+    pdf.set_y(-25)  # Contact info positioned closer to the bottom
     pdf.set_font("Arial", size=10)
     pdf.cell(0, 10, "Mike", ln=True, align="C")
     pdf.cell(0, 10, "443-467-0899", ln=True, align="C")
