@@ -79,16 +79,19 @@ def generate_pdf(data, project_type, material, client_name, client_email, client
     for key, value in data.items():
         pdf.cell(200, 10, f"{key.replace('_', ' ').title()}: {value}", ln=True)
 
-    # Footer - Adjusting the position to the bottom right of the page
-    pdf.set_y(-40)  # Move position closer to the bottom
+    # Add a few more lines before the footer
+    pdf.ln(10)
+
+    # Footer - Move phone number and website 5 columns below "Duration Days"
+    pdf.set_y(pdf.get_y() + 5 * 10)  # Move down by 5 lines (height of a line is 10)
+    pdf.set_xy(170, pdf.get_y())  # Move to the right
+
+    # Position phone number at the right side of the page
     pdf.set_font("Arial", size=10)
-    
-    # Position phone number and website at bottom-right of the page
-    pdf.set_xy(170, -30)  # Position phone number at the bottom-right
     pdf.cell(0, 10, "(443) 467 - 0899", ln=True, align="R")
-    
-    # Move website a bit lower
-    pdf.set_xy(170, -20)  # Move it further down (below phone number)
+
+    # Move website a bit lower (5 lines below phone number)
+    pdf.set_xy(170, pdf.get_y() + 10)
     pdf.cell(0, 10, "www.Attractiveremodels.com", ln=True, align="R")
 
     # Output as bytes for Streamlit
