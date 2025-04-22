@@ -36,6 +36,34 @@ def generate_pdf(data, project_type, material, client_name, client_email, client
     pdf.add_page()
     pdf.set_font("Arial", size=12)
 
+    # Download logo if not already present
+    logo_url = "https://raw.githubusercontent.com/ATRcodingbot/estimator/main/logo.jpg"
+    logo_path = "temp_logo.jpg"
+    try:
+        if not os.path.exists(logo_path):
+            response = requests.get(logo_url)
+            with open(logo_path, "wb") as f:
+                f.write(response.content)
+    except Exception as e:
+        print("Failed to load logo:", e)
+
+    # Add logo (top-left)
+    if os.path.exists(logo_path):
+        try:
+            pdf.image(logo_path, x=10, y=8, w=30)
+        except RuntimeError:
+            pass
+
+    # Add header title
+    pdf.set_xy(50, 10)
+    pdf.set_font("Arial", "B", 16)
+    pdf.cell(0, 10, "Mike's Contracting", ln=True, align="C")
+
+    # Move cursor below logo/header
+    pdf.set_y(35)
+    pdf.set_font("Arial", size=12)
+
+    # Client and project info
     pdf.cell(200, 10, f"{project_type} Estimate", ln=True)
     pdf.cell(200, 10, f"Client: {client_name}", ln=True)
     pdf.cell(200, 10, f"Email: {client_email}", ln=True)
@@ -47,9 +75,25 @@ def generate_pdf(data, project_type, material, client_name, client_email, client
     for key, value in data.items():
         pdf.cell(200, 10, f"{key.replace('_', ' ').title()}: {value}", ln=True)
 
-    # Return PDF content as bytes
-    pdf_string = pdf.output(dest='S').encode('latin1')
-    return pdf_string
+    # Footer
+    pdf.set_y(-30)
+    pdf.set_font("Arial", size=10)
+    pdf.cell(0, 10, "Mike", ln=True, align="C")
+    pdf.cell(0, 10, "443-467-0899", ln=True, align="C")
+    pdf.cell(0, 10, "www.Attractiveremodels.com", ln=True, align="C")
+
+    # Save to buffer for Streamlit download
+    buffer = BytesIO()
+    pdf.output(buffer)
+    buffer.seek(0)
+
+    # Optional: Clean up temp logo
+    try:
+        os.remove(logo_path)
+    except Exception:
+        pass
+
+    return buffer
 
 
 # ----- ZIP Code Check -----
