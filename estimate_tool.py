@@ -80,9 +80,10 @@ def generate_pdf(data, project_type, material, client_name, client_email, client
     pdf.cell(0, 10, "www.Attractiveremodels.com", ln=True, align="C")
 
     # Output as bytes for Streamlit
-    buffer = BytesIO()
-    pdf.output(buffer)
-    buffer.seek(0)
+    pdf_output = pdf.output(dest='S').encode('latin1')
+    
+    # Convert to BytesIO buffer
+    buffer = BytesIO(pdf_output)
 
     # Clean up temporary logo file
     try:
