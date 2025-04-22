@@ -33,6 +33,7 @@ def estimate_project(project_type, length, width=None, height=None, material="Pr
     }
 
 # ----- Generate PDF in Memory -----
+
 def generate_pdf(data, project_type, material, client_name, client_email, client_phone, client_address):
     pdf = FPDF()
     pdf.add_page()
@@ -58,10 +59,14 @@ def generate_pdf(data, project_type, material, client_name, client_email, client
     pdf.set_font("Arial", "B", 16)
     pdf.cell(0, 10, "Mike's Contracting", ln=True, align="C")
 
-    # Body
+    # Move cursor below header title to add project type (e.g., Deck Estimate)
+    pdf.set_y(25)
+    pdf.set_font("Arial", size=12)
+    pdf.cell(200, 10, f"{project_type} Estimate", ln=True, align="C")
+
+    # Body (Client and project info)
     pdf.set_y(35)
     pdf.set_font("Arial", size=12)
-    pdf.cell(200, 10, f"{project_type} Estimate", ln=True)
     pdf.cell(200, 10, f"Client: {client_name}", ln=True)
     pdf.cell(200, 10, f"Email: {client_email}", ln=True)
     pdf.cell(200, 10, f"Phone: {client_phone}", ln=True)
@@ -69,11 +74,12 @@ def generate_pdf(data, project_type, material, client_name, client_email, client
     pdf.cell(200, 10, f"Material: {material}", ln=True)
     pdf.ln(10)
 
+    # Adding project details dynamically from the estimate data
     for key, value in data.items():
         pdf.cell(200, 10, f"{key.replace('_', ' ').title()}: {value}", ln=True)
 
-    # Footer
-    pdf.set_y(-30)
+    # Footer - Mike's contact details
+    pdf.set_y(-40)  # Position the footer 40 units from the bottom of the page
     pdf.set_font("Arial", size=10)
     pdf.cell(0, 10, "Mike", ln=True, align="C")
     pdf.cell(0, 10, "443-467-0899", ln=True, align="C")
@@ -93,7 +99,6 @@ def generate_pdf(data, project_type, material, client_name, client_email, client
         pass
 
     return buffer
-
 
 # ----- ZIP Code Check -----
 def zip_requires_permit(address):
