@@ -81,7 +81,10 @@ def generate_pdf(data, project_type, material, client_name, client_email, client
         pdf.cell(200, 10, f"{key.replace('_', ' ').title()}: {value}", ln=True)
 
     # Footer adjustment to keep everything on page 1
-    pdf.set_y(-35)  # Adjust to position the footer near the bottom of the page
+    # Set the position closer to the bottom, but within the page's limit
+    pdf.set_y(-35)  # Adjust this value to make sure it's close to the bottom without going off-page
+
+    # Adjust font and content for footer
     pdf.set_font("Arial", size=10)
     pdf.cell(0, 10, "Mike", ln=True, align="C")
     pdf.cell(0, 10, "443-467-0899", ln=True, align="C")
