@@ -33,7 +33,6 @@ def estimate_project(project_type, length, width=None, height=None, material="Pr
     }
 
 # ----- Generate PDF in Memory -----
-
 def generate_pdf(data, project_type, material, client_name, client_email, client_phone, client_address):
     pdf = FPDF()
     pdf.add_page()
@@ -84,11 +83,12 @@ def generate_pdf(data, project_type, material, client_name, client_email, client
     # Set the position closer to the bottom, but within the page's limit
     pdf.set_y(-35)  # Adjust this value to make sure it's close to the bottom without going off-page
 
-    # Adjust font and content for footer
+    # Set font and position for phone and website on the top-right
     pdf.set_font("Arial", size=10)
-    pdf.cell(0, 10, "Mike", ln=True, align="C")
-    pdf.cell(0, 10, "443-467-0899", ln=True, align="C")
-    pdf.cell(0, 10, "www.Attractiveremodels.com", ln=True, align="C")
+    pdf.set_xy(170, 8)  # Positioning on the top-right
+    pdf.cell(0, 10, "(443) 467 - 0899", ln=True, align="R")
+    pdf.set_xy(170, 18)  # Move it a little down for the website
+    pdf.cell(0, 10, "www.Attractiveremodels.com", ln=True, align="R")
 
     # Output as bytes for Streamlit
     pdf_output = pdf.output(dest='S').encode('latin1')
