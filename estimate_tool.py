@@ -1,5 +1,6 @@
 from fpdf import FPDF
 import os
+from io import BytesIO
 
 def generate_pdf(data, project_type, material, client_name, client_email, client_phone, client_address):
     pdf = FPDF()
@@ -7,9 +8,12 @@ def generate_pdf(data, project_type, material, client_name, client_email, client
     pdf.set_font("Arial", size=12)
 
     # Add logo (top-left)
-    logo_path = "logo.png"  # Make sure this is in the root or accessible path
+    logo_path = "logo.png"
     if os.path.exists(logo_path):
-        pdf.image(logo_path, x=10, y=8, w=30)
+        try:
+            pdf.image(logo_path, x=10, y=8, w=30)
+        except RuntimeError:
+            pass  # Ignore image error
 
     # Add header title
     pdf.set_xy(50, 10)
@@ -39,5 +43,8 @@ def generate_pdf(data, project_type, material, client_name, client_email, client
     pdf.cell(0, 10, "443-467-0899", ln=True, align="C")
     pdf.cell(0, 10, "www.Attractiveremodels.com", ln=True, align="C")
 
-    # Output as bytes
-    return pdf.output(dest='S').encode('latin1')
+    # Output to BytesIO for Streamlit download
+    pdf_buffer = BytesIO()
+    pdf.output(pdf_buffer)
+    pdf_buffer.seek(0)
+    return pdf_buffer
