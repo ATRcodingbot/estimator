@@ -33,6 +33,7 @@ def estimate_project(project_type, length, width=None, height=None, material="Pr
     }
 
 # ----- Generate PDF in Memory -----
+
 def generate_pdf(data, project_type, material, client_name, client_email, client_phone, client_address):
     pdf = FPDF()
     pdf.add_page()
@@ -79,8 +80,8 @@ def generate_pdf(data, project_type, material, client_name, client_email, client
     for key, value in data.items():
         pdf.cell(200, 10, f"{key.replace('_', ' ').title()}: {value}", ln=True)
 
-    # Move cursor for the footer/contact info just before bottom of page 1
-    pdf.set_y(-45)  # A little higher to avoid overflow
+    # Footer adjustment to keep everything on page 1
+    pdf.set_y(-35)  # Adjust to position the footer near the bottom of the page
     pdf.set_font("Arial", size=10)
     pdf.cell(0, 10, "Mike", ln=True, align="C")
     pdf.cell(0, 10, "443-467-0899", ln=True, align="C")
