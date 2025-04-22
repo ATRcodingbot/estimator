@@ -82,15 +82,15 @@ def generate_pdf(data, project_type, material, client_name, client_email, client
     # Add a few more lines before the footer
     pdf.ln(10)
 
-    # Footer - Move phone number and website 5 columns below "Duration Days"
-    pdf.set_y(pdf.get_y() + 5 * 10)  # Move down by 5 lines (height of a line is 10)
+    # Footer - Move phone number and website 2 columns below "Duration Days"
+    pdf.set_y(pdf.get_y() + 2 * 10)  # Move down by 2 lines (height of a line is 10)
     pdf.set_xy(170, pdf.get_y())  # Move to the right
 
     # Position phone number at the right side of the page
     pdf.set_font("Arial", size=10)
     pdf.cell(0, 10, "(443) 467 - 0899", ln=True, align="R")
 
-    # Move website a bit lower (5 lines below phone number)
+    # Move website a bit lower (2 lines below phone number)
     pdf.set_xy(170, pdf.get_y() + 10)
     pdf.cell(0, 10, "www.Attractiveremodels.com", ln=True, align="R")
 
